@@ -53,7 +53,7 @@ static const unsigned int MEMPOOL_HEIGHT = 0x7FFFFFFF;
 /** No amount larger than this (in satoshi) is valid */
 static const int64 MAX_MONEY = 2000000000u * COIN;
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
-static const int64 MIN_TX_FEE = CENT;
+static const int64 MIN_TX_FEE = (5 * CENT);
 static const int64 MIN_RELAY_TX_FEE = MIN_TX_FEE;
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
