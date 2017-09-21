@@ -2769,7 +2769,7 @@ bool InitBlockIndex() {
         return true;
 
     // Use the provided setting for -txindex in the new database
-    fTxIndex = GetBoolArg("-txindex", false);
+    fTxIndex = GetBoolArg("-txindex", true); // in datacoin by default we need txIndex
     pblocktree->WriteFlag("txindex", fTxIndex);
     printf("Initializing databases...\n");
 
