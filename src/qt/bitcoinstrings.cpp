@@ -49,7 +49,7 @@ QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Execute command when the best block changes (%s in cmd is replaced by block "
 "hash)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
-"Listen for JSON-RPC connections on <port> (default: 9912 or testnet: 9914)"),
+"Listen for JSON-RPC connections on <port> (default: 11777 or testnet: 11776)"),
 QT_TRANSLATE_NOOP("bitcoin-core", ""
 "Number of seconds to keep misbehaving peers from reconnecting (default: "
 "86400)"),
