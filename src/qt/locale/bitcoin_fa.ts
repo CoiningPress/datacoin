@@ -1314,7 +1314,7 @@ Address: %4
     </message>
     <message>
         <location line="+10"/>
-        <source>123.456 BTC</source>
+        <source>123.456 DTC</source>
         <translation>123.456 بتس</translation>
     </message>
     <message>
