@@ -2776,28 +2776,28 @@ bool InitBlockIndex() {
     // Only add the genesis block if not reindexing (in which case we reuse the one already on disk)
     if (!fReindex) {
         // Genesis Block:
-        // CBlock(hash=000000000019d6, ver=1, hashPrevBlock=00000000000000, hashMerkleRoot=4a5e1e, nTime=1231006505, nBits=1d00ffff, nNonce=2083236893, vtx=1)
-        //   CTransaction(hash=4a5e1e, ver=1, vin.size=1, vout.size=1, nLockTime=0)
-        //     CTxIn(COutPoint(000000, -1), coinbase 04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73)
-        //     CTxOut(nValue=50.00000000, scriptPubKey=0x5F1DF16B2B704C8A578D0B)
-        //   vMerkleTree: 4a5e1e
+        // CBlock(hash=1d724e874ee9ea571563239bde095911f128db47c7612fb1968c08c9f95cabe8, hashBlockHeader=e99f0a9e66163debc065c313e638aa895d2b80652d109dbe4beb9808f62d1157, ver=2, hashPrevBlock=0000000000000000000000000000000000000000000000000000000000000000, hashMerkleRoot=fe5d7082c24c53362f6b82211913d536677aaffafde0dcec6ff7b348ff6265f8, nTime=1384627170, nBits=06000000, nNonce=49030125, vtx=1)
+        //   CTransaction(hash=fe5d7082c24c53362f6b82211913d536677aaffafde0dcec6ff7b348ff6265f8, ver=1, vin.size=1, vout.size=1, nLockTime=0, data.size=0)
+        //     CTxIn(COutPoint(0000000000000000000000000000000000000000000000000000000000000000, 4294967295), coinbase 0002e7033068747470733a2f2f626974636f696e74616c6b2e6f72672f696e6465782e7068703f746f7069633d3332353733352e30)
+        //     CTxOut(error)
+        //   vMerkleTree: fe5d7082c24c53362f6b82211913d536677aaffafde0dcec6ff7b348ff6265f8
 
         // Genesis block
-        const char* pszDedication = "Sunny King - dedicated to Satoshi Nakamoto and all who have fought for the freedom of mankind";
+        const char* pszStartTopic = "https://bitcointalk.org/index.php?topic=325735.0";
         CTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
-        txNew.vin[0].scriptSig = CScript() << 0 << CBigNum(999) << vector<unsigned char>((const unsigned char*)pszDedication, (const unsigned char*)pszDedication + strlen(pszDedication));
+        txNew.vin[0].scriptSig = CScript() << 0 << CBigNum(999) << vector<unsigned char>((const unsigned char*)pszStartTopic, (const unsigned char*)pszStartTopic + strlen(pszStartTopic));
         txNew.vout[0].nValue = COIN;
         txNew.vout[0].scriptPubKey = CScript();
         CBlock block;
         block.vtx.push_back(txNew);
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
-        block.nTime    = 1373064429;
+        block.nTime    = 1384627170;
         block.nBits    = TargetFromInt(6);
-        block.nNonce   = 383;
-        block.bnPrimeChainMultiplier = ((uint64) 532541) * (uint64)(2 * 3 * 5 * 7 * 11 * 13 * 17 * 19 * 23);
+        block.nNonce   = 49030125;
+        block.bnPrimeChainMultiplier = (uint64) 5651310;
 
         if (fTestNet)
         {
@@ -2811,7 +2811,7 @@ bool InitBlockIndex() {
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0xaca30eb61dffbb9412d0ae743c3d74554f710853daec40ebd2514e830e05c9ff"));
+        assert(block.hashMerkleRoot == uint256("0xfe5d7082c24c53362f6b82211913d536677aaffafde0dcec6ff7b348ff6265f8"));
         block.print();
         assert(hash == hashGenesisBlock);
         {
