@@ -2746,7 +2746,7 @@ bool LoadBlockIndex()
         pchMessageStart[2] = 0xdb;
         pchMessageStart[3] = 0xd3;
         hashGenesisBlock = hashGenesisBlockTestNet;
-        nTargetInitialLength = 5; // primecoin: initial prime chain target
+        nTargetInitialLength = 4; // primecoin: initial prime chain target
         nTargetMinLength = 2;     // primecoin: minimum prime chain target
     }
 
@@ -2801,9 +2801,10 @@ bool InitBlockIndex() {
 
         if (fTestNet)
         {
-            block.nTime    = 1373063882;
-            block.nNonce   = 1513;
-            block.bnPrimeChainMultiplier = ((uint64) 585641) * (uint64)(2 * 3 * 5 * 7 * 11 * 13 * 17 * 19 * 23);
+            block.nTime    = 1385686192;
+            block.nBits    = TargetFromInt(4);
+            block.nNonce   = 46032;
+            block.bnPrimeChainMultiplier = (uint64) 211890;
         }
 
         //// debug print

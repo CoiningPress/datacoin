@@ -174,12 +174,14 @@ Value getwork(const Array& params, bool fHelp)
     {
         // Parse parameters
         vector<unsigned char> vchData = ParseHex(params[0].get_str());
-        if (vchData.size() != 128)
+        printf("got getwork with vchData.size() == %d\n", vchData.size());
+        if (vchData.size() != 128 && vchData.size() != 256)
             throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter");
         CBlock* pdata = (CBlock*)&vchData[0];
+        size_t dataSize = vchData.size();
 
         // Byte reverse
-        for (int i = 0; i < 128/4; i++)
+        for (int i = 0; i < dataSize/4; i++)
             ((unsigned int*)pdata)[i] = ByteReverse(((unsigned int*)pdata)[i]);
 
         // Get saved block
@@ -193,8 +195,8 @@ Value getwork(const Array& params, bool fHelp)
         pblock->hashMerkleRoot = pblock->BuildMerkleTree();
 
         // Deserialize PrimeChainMultiplier
-        unsigned char primemultiplier[48];
-        memcpy(primemultiplier, &pdata->bnPrimeChainMultiplier, 48);
+        unsigned char primemultiplier[dataSize-80];
+        memcpy(primemultiplier, &pdata->bnPrimeChainMultiplier, dataSize-80);
         CDataStream ssMult(BEGIN(primemultiplier), END(primemultiplier), SER_NETWORK, PROTOCOL_VERSION);
         ssMult >> pblock->bnPrimeChainMultiplier;
 

@@ -40,6 +40,8 @@ static const unsigned int MAX_STANDARD_TX_SIZE = 100000;
 static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
 /** The maximum number of orphan transactions kept in memory */
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
+/** The maximum data payload size per transaction **/
+static const unsigned int MAX_TX_DATA_SIZE = (128 * 1024);
 /** The maximum number of entries in an 'inv' protocol message */
 static const unsigned int MAX_INV_SZ = 50000;
 /** The maximum size of a blk?????.dat file (since 0.8) */
@@ -485,6 +487,7 @@ public:
     std::vector<CTxIn> vin;
     std::vector<CTxOut> vout;
     unsigned int nLockTime;
+    std::vector<unsigned char> data;
 
     CTransaction()
     {
@@ -498,6 +501,7 @@ public:
         READWRITE(vin);
         READWRITE(vout);
         READWRITE(nLockTime);
+        READWRITE(data);
     )
 
     void SetNull()
@@ -506,6 +510,7 @@ public:
         vin.clear();
         vout.clear();
         nLockTime = 0;
+        data.clear();
     }
 
     bool IsNull() const
@@ -516,6 +521,10 @@ public:
     uint256 GetHash() const
     {
         return SerializeHash(*this);
+    }
+
+    std::string GetBase64Data() const {
+        return EncodeBase64(data.data(), data.size());
     }
 
     bool IsFinal(int nBlockHeight=0, int64 nBlockTime=0) const
@@ -647,12 +656,13 @@ public:
     std::string ToString() const
     {
         std::string str;
-        str += strprintf("CTransaction(hash=%s, ver=%d, vin.size=%"PRIszu", vout.size=%"PRIszu", nLockTime=%u)\n",
+        str += strprintf("CTransaction(hash=%s, ver=%d, vin.size=%"PRIszu", vout.size=%"PRIszu", nLockTime=%u, data.size=%"PRIszu")\n",
             GetHash().ToString().c_str(),
             nVersion,
             vin.size(),
             vout.size(),
-            nLockTime);
+            nLockTime,
+            data.size());
         for (unsigned int i = 0; i < vin.size(); i++)
             str += "    " + vin[i].ToString() + "\n";
         for (unsigned int i = 0; i < vout.size(); i++)
