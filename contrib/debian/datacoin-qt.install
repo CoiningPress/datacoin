@@ -1,0 +1,6 @@
+datacoin-qt usr/bin
+share/pixmaps/datacoin32.xpm usr/share/pixmaps
+share/pixmaps/datacoin16.xpm usr/share/pixmaps
+share/pixmaps/datacoin128.png usr/share/pixmaps
+debian/datacoin-qt.desktop usr/share/applications
+debian/datacoin-qt.protocol usr/share/kde4/services/

@@ -2,6 +2,7 @@
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2013 PPCoin developers
 // Copyright (c) 2013 Primecoin developers
+// Copyright (c) 2013-2017 Datacoin developers
 // Distributed under conditional MIT/X11 software license,
 // see the accompanying file COPYING
 #ifndef BITCOIN_MAIN_H
@@ -606,7 +607,7 @@ public:
      */
     unsigned int GetP2SHSigOpCount(CCoinsViewCache& mapInputs) const;
 
-    /** Amount of bitcoins spent by this transaction.
+    /** Amount of datacoins spent by this transaction.
         @return sum of all outputs (note: does not include fees)
      */
     int64 GetValueOut() const
@@ -621,7 +622,7 @@ public:
         return nValueOut;
     }
 
-    /** Amount of bitcoins coming in to this transaction
+    /** Amount of datacoins coming in to this transaction
         Note that lightweight clients may not know anything besides the hash of previous transactions,
         so may not be able to calculate this.
 
@@ -1292,10 +1293,10 @@ public:
     uint256 hashPrevBlock;
     uint256 hashMerkleRoot;
     unsigned int nTime;
-    unsigned int nBits;  // Primecoin: prime chain target, see prime.cpp
+    unsigned int nBits;  // Datacoin: prime chain target, see prime.cpp
     unsigned int nNonce;
 
-    // Primecoin: proof-of-work certificate
+    // Datacoin: proof-of-work certificate
     // Multiplier to block hash to derive the probable prime chain (k=0, 1, ...)
     // Cunningham Chain of first kind:  hash * multiplier * 2**k - 1
     // Cunningham Chain of second kind: hash * multiplier * 2**k + 1
@@ -1335,13 +1336,13 @@ public:
         return (nBits == 0);
     }
 
-    // Primecoin: header hash does not include prime certificate
+    // Datacoin: header hash does not include prime certificate
     uint256 GetHeaderHash() const
     {
         return Hash(BEGIN(nVersion), END(nNonce));
     }
 
-    // Primecoin: block hash includes prime certificate
+    // Datacoin: block hash includes prime certificate
     uint256 GetHash() const
     {
         CDataStream ss(SER_GETHASH, 0);
@@ -1365,8 +1366,8 @@ public:
 
     // memory only
     mutable std::vector<uint256> vMerkleTree;
-    unsigned int nPrimeChainType;   // primecoin: chain type (memory-only)
-    unsigned int nPrimeChainLength; // primecoin: chain length (memory-only)
+    unsigned int nPrimeChainType;   // datacoin: chain type (memory-only)
+    unsigned int nPrimeChainLength; // datacoin: chain length (memory-only)
 
     CBlock()
     {
@@ -1505,7 +1506,7 @@ public:
             return error("%s() : deserialize or I/O error", __PRETTY_FUNCTION__);
         }
 
-        // Primecoin: no proof-of-work check here unlike bitcoin
+        // Datacoin: no proof-of-work check here unlike bitcoin
         // Check the header
         return true;
     }
@@ -1669,11 +1670,11 @@ public:
 
     // (memory only) Total amount of work (expected number of hashes) in the chain up to and including this block
     uint256 nChainWork;
-    unsigned int nWorkTransition; // primecoin: work transition ratio (memory-only)
+    unsigned int nWorkTransition; // datacoin: work transition ratio (memory-only)
 
-    unsigned int nPrimeChainType;   // primecoin: chain type
-    unsigned int nPrimeChainLength; // primecoin: chain length
-    int64 nMoneySupply;             // primecoin: money supply
+    unsigned int nPrimeChainType;   // datacoin: chain type
+    unsigned int nPrimeChainLength; // datacoin: chain length
+    int64 nMoneySupply;             // datacoin: money supply
 
     // Number of transactions in this block.
     // Note: in a potential headers-first mode, this number cannot be relied upon
@@ -1793,7 +1794,7 @@ public:
 
     bool CheckIndex() const
     {
-        // Primecoin: disabled proof-of-work check for loading block index
+        // Datacoin: disabled proof-of-work check for loading block index
         // return CheckProofOfWork(GetBlockHash(), nBits);
         return true;
     }
@@ -1867,7 +1868,7 @@ class CDiskBlockIndex : public CBlockIndex
 {
 public:
     uint256 hashPrev;
-    uint256 hashBlock; // primecoin: persist block hash as well
+    uint256 hashBlock; // datacoin: persist block hash as well
 
     CDiskBlockIndex() {
         hashPrev = 0;

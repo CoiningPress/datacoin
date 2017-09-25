@@ -1,5 +1,6 @@
 // Copyright (c) 2012 The Bitcoin developers
 // Copyright (c) 2013 Primecoin developers
+// Copyright (c) 2013-2017 Datacoin developers
 // Distributed under conditional MIT/X11 software license,
 // see the accompanying file COPYING.
 #ifndef BITCOIN_VERSION_H
@@ -22,11 +23,11 @@ extern const std::string CLIENT_NAME;
 extern const std::string CLIENT_BUILD;
 extern const std::string CLIENT_DATE;
 
-static const int PRIMECOIN_VERSION =
-                           1000000 * PRIMECOIN_VERSION_MAJOR
-                         +   10000 * PRIMECOIN_VERSION_MINOR
-                         +     100 * PRIMECOIN_VERSION_REVISION
-                         +       1 * PRIMECOIN_VERSION_BUILD;
+static const int DATACOIN_VERSION =
+                           1000000 * DATACOIN_VERSION_MAJOR
+                         +   10000 * DATACOIN_VERSION_MINOR
+                         +     100 * DATACOIN_VERSION_REVISION
+                         +       1 * DATACOIN_VERSION_BUILD;
 
 //
 // network protocol versioning

@@ -1,4 +1,4 @@
-Mac OS X bitcoind build instructions
+Mac OS X datacoind build instructions
 ====================================
 
 Authors
@@ -13,6 +13,7 @@ License
 -------
 
 Copyright (c) 2009-2012 Bitcoin Developers
+Copyright (c) 2013-2017 Datacoin Developers
 
 Distributed under the MIT/X11 software license, see the accompanying
 file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -26,7 +27,7 @@ Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.
 Notes
 -----
 
-See `doc/readme-qt.rst` for instructions on building Bitcoin-Qt, the
+See `doc/readme-qt.rst` for instructions on building Datacoin-Qt, the
 graphical user interface.
 
 Tested on OS X 10.5 through 10.8 on Intel processors only. PPC is not
@@ -72,14 +73,14 @@ Installing the dependencies using MacPorts is very straightforward.
 
     sudo port install boost db48@+no_java openssl miniupnpc
 
-### Building `bitcoind`
+### Building `datacoind`
 
 1. Clone the github tree to get the source code and go into the directory.
 
-        git clone git@github.com:bitcoin/bitcoin.git bitcoin
-        cd bitcoin
+        git clone git@github.com:CoiningPress/datacoin.git datacoin
+        cd datacoin
 
-2.  Build bitcoind:
+2.  Build datacoind:
 
         cd src
         make -f makefile.osx
@@ -107,12 +108,12 @@ If not, you can ensure that the Brew OpenSSL is correctly linked by running
 
 Rerunning "openssl version" should now return the correct version.
 
-### Building `bitcoind`
+### Building `datacoind`
 
 1. Clone the github tree to get the source code and go into the directory.
 
-        git clone git@github.com:bitcoin/bitcoin.git bitcoin
-        cd bitcoin
+        git clone git@github.com:CoiningPress/datacoin.git datacoin
+        cd datacoin
 
 2.  Modify source in order to pick up the `openssl` library.
 
@@ -122,7 +123,7 @@ Rerunning "openssl version" should now return the correct version.
 
         patch -p1 < contrib/homebrew/makefile.osx.patch
 
-3.  Build bitcoind:
+3.  Build datacoind:
 
         cd src
         make -f makefile.osx
@@ -134,10 +135,10 @@ Rerunning "openssl version" should now return the correct version.
 Creating a release build
 ------------------------
 
-A bitcoind binary is not included in the Bitcoin-Qt.app bundle. You can ignore
-this section if you are building `bitcoind` for your own use.
+A datacoind binary is not included in the Datacoin-Qt.app bundle. You can ignore
+this section if you are building `datacoind` for your own use.
 
-If you are building `bitcoind` for others, your build machine should be set up
+If you are building `datacoind` for others, your build machine should be set up
 as follows for maximum compatibility:
 
 All dependencies should be compiled with these flags:
@@ -156,30 +157,30 @@ As of December 2012, the `boost` port does not obey `macosx_deployment_target`.
 Download `http://gavinandresen-bitcoin.s3.amazonaws.com/boost_macports_fix.zip`
 for a fix. Some ports also seem to obey either `build_arch` or
 `macosx_deployment_target`, but not both at the same time. For example, building
-on an OS X 10.6 64-bit machine fails. Official release builds of Bitcoin-Qt are
+on an OS X 10.6 64-bit machine fails. Official release builds of Datacoin-Qt are
 compiled on an OS X 10.6 32-bit machine to workaround that problem.
 
-Once dependencies are compiled, creating `Bitcoin-Qt.app` is easy:
+Once dependencies are compiled, creating `Datacoin-Qt.app` is easy:
 
     make -f Makefile.osx RELEASE=1
 
 Running
 -------
 
-It's now available at `./bitcoind`, provided that you are still in the `src`
+It's now available at `./datacoind`, provided that you are still in the `src`
 directory. We have to first create the RPC configuration file, though.
 
-Run `./bitcoind` to get the filename where it should be put, or just try these
+Run `./datacoind` to get the filename where it should be put, or just try these
 commands:
 
-    echo -e "rpcuser=bitcoinrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/Bitcoin/bitcoin.conf"
-    chmod 600 "/Users/${USER}/Library/Application Support/Bitcoin/bitcoin.conf"
+    echo -e "rpcuser=datacoinrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/Datacoin/datacoin.conf"
+    chmod 600 "/Users/${USER}/Library/Application Support/Datacoin/datacoin.conf"
 
 When next you run it, it will start downloading the blockchain, but it won't
 output anything while it's doing this. This process may take several hours.
 
 Other commands:
 
-    ./bitcoind --help  # for a list of command-line options.
-    ./bitcoind -daemon # to start the bitcoin daemon.
-    ./bitcoind help    # When the daemon is running, to get a list of RPC commands
+    ./datacoind --help  # for a list of command-line options.
+    ./datacoind -daemon # to start the datacoin daemon.
+    ./datacoind help    # When the daemon is running, to get a list of RPC commands

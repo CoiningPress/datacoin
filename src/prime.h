@@ -1,14 +1,15 @@
 // Copyright (c) 2013 Primecoin developers
+// Copyright (c) 2013-2017 Datacoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef PRIMECOIN_PRIME_H
-#define PRIMECOIN_PRIME_H
+#ifndef DATACOIN_PRIME_H
+#define DATACOIN_PRIME_H
 
 #include "main.h"
 
 /**********************/
-/* PRIMECOIN PROTOCOL */
+/* DATACOIN PROTOCOL */
 /**********************/
 
 static const unsigned int nMaxSieveSize = 1000000u;
@@ -81,7 +82,7 @@ std::string GetPrimeOriginPrimorialForm(CBigNum& bnPrimeChainOrigin);
 
 
 /********************/
-/* PRIMECOIN MINING */
+/* DATACOIN MINING */
 /********************/
 
 // Mine probable prime chain of form: n = h * p# +/- 1

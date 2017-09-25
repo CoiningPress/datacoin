@@ -1,5 +1,6 @@
 // Copyright (c) 2012 The Bitcoin developers
 // Copyright (c) 2013 Primecoin developers
+// Copyright (c) 2013-2017 Datacoin developers
 // Distributed under conditional MIT/X11 software license,
 // see the accompanying file COPYING.
 #include <string>
@@ -7,9 +8,9 @@
 #include "version.h"
 
 // Name of client reported in the 'version' message. Report the same name
-// for both bitcoind and bitcoin-qt, to make it harder for attackers to
+// for both datacoind and datacoin-qt, to make it harder for attackers to
 // target servers or GUI users specifically.
-const std::string CLIENT_NAME("Satoshi");
+const std::string CLIENT_NAME("Datacoin");
 
 // Client version number
 #define CLIENT_VERSION_SUFFIX   "-beta"
@@ -48,9 +49,9 @@ const std::string CLIENT_NAME("Satoshi");
 
 #ifndef BUILD_DESC
 #    ifdef GIT_COMMIT_ID
-#        define BUILD_DESC BUILD_DESC_FROM_COMMIT(PRIMECOIN_VERSION_MAJOR, PRIMECOIN_VERSION_MINOR, PRIMECOIN_VERSION_REVISION, PRIMECOIN_VERSION_BUILD, GIT_COMMIT_ID)
+#        define BUILD_DESC BUILD_DESC_FROM_COMMIT(DATACOIN_VERSION_MAJOR, DATACOIN_VERSION_MINOR, DATACOIN_VERSION_REVISION, DATACOIN_VERSION_BUILD, GIT_COMMIT_ID)
 #    else
-#        define BUILD_DESC BUILD_DESC_FROM_UNKNOWN(PRIMECOIN_VERSION_MAJOR, PRIMECOIN_VERSION_MINOR, PRIMECOIN_VERSION_REVISION, PRIMECOIN_VERSION_BUILD)
+#        define BUILD_DESC BUILD_DESC_FROM_UNKNOWN(DATACOIN_VERSION_MAJOR, DATACOIN_VERSION_MINOR, DATACOIN_VERSION_REVISION, DATACOIN_VERSION_BUILD)
 #    endif
 #endif
 

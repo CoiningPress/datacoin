@@ -1,7 +1,7 @@
 src/*.exe
-src/primecoin
-src/primecoind
-src/test_primecoin
+src/datacoin
+src/datacoind
+src/test_datacoin
 .*.swp
 *.*~*
 *.bak
@@ -9,17 +9,17 @@ src/test_primecoin
 *.orig
 *.o
 *.patch
-.primecoin
+.datacoin
 
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-primecoin-qt
-Primecoin-Qt.app
+datacoin-qt
+Datacoin-Qt.app
 
 # Unit-tests
 Makefile.test
-primecoin-qt_test
+datacoin-qt_test
 
 # Resources cpp
 qrc_*.cpp

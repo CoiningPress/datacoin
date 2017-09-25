@@ -1,0 +1,39 @@
+IDI_ICON1 ICON DISCARDABLE "icons/datacoin.ico"
+IDI_ICON2 ICON DISCARDABLE "icons/datacoin-testnet.ico"
+
+#include <windows.h>             // needed for VERSIONINFO
+#include "../../clientversion.h" // holds the needed client version information
+
+#define VER_PRODUCTVERSION     DATACOIN_VERSION_MAJOR,DATACOIN_VERSION_MINOR,DATACOIN_VERSION_REVISION,DATACOIN_VERSION_BUILD
+#define VER_PRODUCTVERSION_STR STRINGIZE(DATACOIN_VERSION_MAJOR) "." STRINGIZE(DATACOIN_VERSION_MINOR) "." STRINGIZE(DATACOIN_VERSION_REVISION) "." STRINGIZE(DATACOIN_VERSION_BUILD)
+#define VER_FILEVERSION        VER_PRODUCTVERSION
+#define VER_FILEVERSION_STR    VER_PRODUCTVERSION_STR
+#define COPYRIGHT_STR          "2013-" STRINGIZE(COPYRIGHT_YEAR) " The Datacoin developers"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     VER_FILEVERSION
+PRODUCTVERSION  VER_PRODUCTVERSION
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4" // U.S. English - multilingual (hex)
+        BEGIN
+            VALUE "CompanyName",        "Datacoin"
+            VALUE "FileDescription",    "Datacoin-Qt (OSS GUI client for Datacoin)"
+            VALUE "FileVersion",        VER_FILEVERSION_STR
+            VALUE "InternalName",       "datacoin-qt"
+            VALUE "LegalCopyright",     COPYRIGHT_STR
+            VALUE "LegalTrademarks1",   "Distributed under conditional MIT/X11 software license, see the accompanying file COPYING."
+            VALUE "OriginalFilename",   "datacoin-qt.exe"
+            VALUE "ProductName",        "Datacoin-Qt"
+            VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1252 // language neutral - multilingual (decimal)
+    END
+END

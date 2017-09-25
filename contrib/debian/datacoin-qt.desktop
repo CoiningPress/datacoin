@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Datacoin
+Comment=Datacoin P2P Cryptocurrency
+Comment[fr]=Datacoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Datacoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/datacoin-qt %u
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/datacoin128.png
+MimeType=x-scheme-handler/datacoin;
+Categories=Office;
