@@ -1,72 +1,103 @@
 ---
 name: "datacoin-deps"
 suites:
-- "lucid"
+- "precise"
 architectures:
-- "i386"
+- "amd64"
 packages:
-- "mingw32"
+- "mingw-w64"
+- "g++-mingw-w64"
 - "git-core"
 - "zip"
 - "faketime"
-- "wine"
 - "psmisc"
 reference_datetime: "2011-01-30 00:00:00"
 remotes: []
 files:
-- "openssl-1.0.1g.tar.gz"
-- "db-4.8.30.NC.tar.gz"
-- "miniupnpc-1.6.tar.gz"
-- "zlib-1.2.7.tar.gz"
-- "libpng-1.5.12.tar.gz"
-- "qrencode-3.2.0.tar.bz2"
+- "openssl-1.0.2l.tar.gz"
+- "db-5.3.28.NC.tar.gz"
+- "miniupnpc-2.0.20170509.tar.gz"
+- "zlib-1.2.11.tar.gz"
+- "libpng-1.6.30.tar.gz"
+- "qrencode-3.4.4.tar.bz2"
 script: |
   #
   export LD_PRELOAD=/usr/lib/faketime/libfaketime.so.1
   export FAKETIME=$REFERENCE_DATETIME
   export TZ=UTC
+  export INSTALLPREFIX=$OUTDIR/staging/deps
+  export HOST=i686-w64-mingw32
+  # Integrity Check
+  echo "ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c  openssl-1.0.2l.tar.gz"  | sha256sum -c
+  echo "76a25560d9e52a198d37a31440fd07632b5f1f8f9f2b6d5438f4bc3e7c9013ef  db-5.3.28.NC.tar.gz"    | sha256sum -c
+  echo "d3c368627f5cdfb66d3ebd64ca39ba54d6ff14a61966dbecb8dd296b7039f16a  miniupnpc-2.0.20170509.tar.gz"   | sha256sum -c
+  echo "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1  zlib-1.2.11.tar.gz"      | sha256sum -c
+  echo "460ab9211da1dfa5fedbaa2d19ba78ae0b98ad263b9edfc8542ead0f1ca31825  libpng-1.6.30.tar.gz"    | sha256sum -c
+  echo "efe5188b1ddbcbf98763b819b146be6a90481aac30cfc8d858ab78a19cde1fa5  qrencode-3.4.4.tar.bz2" | sha256sum -c
+
   #
-  tar xzf openssl-1.0.1g.tar.gz
-  cd openssl-1.0.1g
-  ./Configure --cross-compile-prefix=i586-mingw32msvc- mingw
+  mkdir -p $INSTALLPREFIX
+
+  tar xzf openssl-1.0.2l.tar.gz
+  cd openssl-1.0.2l
+  ./Configure --cross-compile-prefix=$HOST- mingw --openssldir=$INSTALLPREFIX
   make
+  make install_sw
   cd ..
   #
-  tar xzf db-4.8.30.NC.tar.gz
-  cd db-4.8.30.NC/build_unix
-  ../dist/configure --enable-mingw --enable-cxx --host=i586-mingw32msvc CFLAGS="-I/usr/i586-mingw32msvc/include"
-  make $MAKEOPTS
+  tar xzf db-5.3.28.NC.tar.gz
+  cd db-5.3.28.NC
+  sed -i 's/WinIoCtl.h/winioctl.h/g' src/dbinc/win_db.h
+  cd build_unix
+  ../dist/configure --prefix=$INSTALLPREFIX --enable-mingw --enable-cxx --host=$HOST --disable-shared
+  make $MAKEOPTS library_build
+  make install_lib install_include
   cd ../..
   #
-  tar xzf miniupnpc-1.6.tar.gz
-  cd miniupnpc-1.6
-  sed 's/dllwrap -k --driver-name gcc/$(DLLWRAP) -k --driver-name $(CC)/' -i Makefile.mingw
-  sed 's|wingenminiupnpcstrings $< $@|./wingenminiupnpcstrings $< $@|' -i Makefile.mingw
-  make -f Makefile.mingw DLLWRAP=i586-mingw32msvc-dllwrap CC=i586-mingw32msvc-gcc AR=i586-mingw32msvc-ar
+  tar xzf miniupnpc-2.0.20170509.tar.gz
+  cd miniupnpc-2.0.20170509
+  echo "
+  --- miniupnpc-2.0.20170509/Makefile.mingw.orig  2016-01-19 04:26:58.000000000 -0600
+  +++ miniupnpc-2.0.20170509/Makefile.mingw       2017-09-17 02:16:44.656483442 -0500
+  @@ -74,8 +74,8 @@
+   
+   wingenminiupnpcstrings.o:	wingenminiupnpcstrings.c
+   
+  -miniupnpcstrings.h: miniupnpcstrings.h.in wingenminiupnpcstrings
+  -	wingenminiupnpcstrings \$< \$@
+  +miniupnpcstrings.h: miniupnpcstrings.h.in
+  +	sed -e 's|OS/version|MSWindows/5.1.2600|' -e 's|MINIUPNPC_VERSION_STRING \"version\"|MINIUPNPC_VERSION_STRING \"VERSIONHERE\"|' \$< > \$@
+   
+   minixml.o:	minixml.c minixml.h
+   
+  " | sed "s/VERSIONHERE/$(cat VERSION)/" | patch -p1
+  mkdir -p dll
+  make -f Makefile.mingw CC=$HOST-gcc AR=$HOST-ar libminiupnpc.a
+  install -d $INSTALLPREFIX/include/miniupnpc
+  install *.h $INSTALLPREFIX/include/miniupnpc
+  install libminiupnpc.a  $INSTALLPREFIX/lib
   cd ..
-  mv miniupnpc-1.6 miniupnpc
   #
-  tar xzf zlib-1.2.7.tar.gz
-  cd zlib-1.2.7
-  make -f win32/Makefile.gcc PREFIX=i586-mingw32msvc- $MAKEOPTS
+  tar xzf zlib-1.2.11.tar.gz
+  cd zlib-1.2.11
+  CROSS_PREFIX=$HOST- ./configure --prefix=$INSTALLPREFIX --static
+  make
+  make install
   cd ..
   #
-  tar xzf libpng-1.5.12.tar.gz
-  cd libpng-1.5.12
-  ./configure -disable-shared CC=i586-mingw32msvc-cc AR=i586-mingw32msvc-ar STRIP=i586-mingw32msvc-strip RANLIB=i586-mingw32msvc-ranlib OBJDUMP=i586-mingw32msvc-objdump LD=i586-mingw32msvc-ld LDFLAGS="-L../zlib-1.2.7/" CFLAGS="-I../zlib-1.2.7/"
+  tar xzf libpng-1.6.30.tar.gz
+  cd libpng-1.6.30
+  CPPFLAGS="-I$INSTALLPREFIX/include" LDFLAGS="-L$INSTALLPREFIX/lib" ./configure --disable-shared --prefix=$INSTALLPREFIX --host=$HOST
   make $MAKEOPTS
+  make install
   cd ..
   #
-  tar xjf qrencode-3.2.0.tar.bz2
-  cd qrencode-3.2.0
-  ./configure CC=i586-mingw32msvc-cc AR=i586-mingw32msvc-ar STRIP=i586-mingw32msvc-strip RANLIB=i586-mingw32msvc-ranlib OBJDUMP=i586-mingw32msvc-objdump LD=i586-mingw32msvc-ld png_LIBS="../libpng-1.5.12/.libs/libpng15.a ../zlib-1.2.7/libz.a" png_CFLAGS="-I../libpng-1.5.12"
-  make $MAKEOPTS
+  tar xjf qrencode-3.4.4.tar.bz2
+  cd qrencode-3.4.4
+  png_CFLAGS="-I$INSTALLPREFIX/include" png_LIBS="-L$INSTALLPREFIX/lib -lpng" ./configure --prefix=$INSTALLPREFIX --host=$HOST
+  make
+  make install
   cd ..
   #
-  zip -r $OUTDIR/datacoin-deps-0.0.2.zip \
-    $(ls qrencode-*/{qrencode.h,.libs/libqrencode.{,l}a} | sort) \
-    $(ls db-*/build_unix/{libdb_cxx.a,db.h,db_cxx.h,libdb.a,.libs/libdb_cxx-?.?.a} | sort) \
-    $(find openssl-* -name '*.a' -o -name '*.h' | sort) \
-    $(find miniupnpc -name '*.h' -o -name 'libminiupnpc.a' | sort)
-  # Kill wine processes as gitian won't figure out we are done otherwise
-  killall wineserver services.exe explorer.exe winedevice.exe
+  cd $INSTALLPREFIX
+  zip -r $OUTDIR/datacoin-deps-win32-gitian.zip include lib
