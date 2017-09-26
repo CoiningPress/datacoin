@@ -175,14 +175,14 @@ Value getwork(const Array& params, bool fHelp)
     {
         // Parse parameters
         vector<unsigned char> vchData = ParseHex(params[0].get_str());
-        printf("got getwork with vchData.size() == %d\n", vchData.size());
+        printf("got getwork with vchData.size() == %ld\n", vchData.size());
         if (vchData.size() != 128 && vchData.size() != 256)
             throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter");
         CBlock* pdata = (CBlock*)&vchData[0];
         size_t dataSize = vchData.size();
 
         // Byte reverse
-        for (int i = 0; i < dataSize/4; i++)
+        for (unsigned long int i = 0; i < dataSize/4; i++)
             ((unsigned int*)pdata)[i] = ByteReverse(((unsigned int*)pdata)[i]);
 
         // Get saved block

@@ -1454,7 +1454,7 @@ string CWallet::SendData(CWalletTx& wtxNew, bool fAskFee, const std::string& txD
         return strError;
     }
 
-    printf("SendData(): nFeeRequired = %d\n", nFeeRequired);
+    printf("SendData(): nFeeRequired = %lld\n", nFeeRequired);
 
     if (fAskFee && !uiInterface.ThreadSafeAskFee(nFeeRequired))
         return "ABORTED";
