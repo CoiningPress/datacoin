@@ -1,4 +1,4 @@
-Datacoin 0.1.2 BETA
+Datacoin 0.1.2.0
 ===================
 
 Copyright (c) 2013-2017 Datacoin Developers

@@ -17,11 +17,11 @@ Release Process
 
 ###tag version in git
 
-	git tag -a v0.8.0
+	git tag -a v0.8.6.0
 
 ###write release notes. git shortlog helps a lot, for example:
 
-	git shortlog --no-merges v0.7.2..v0.8.0
+	git shortlog --no-merges v0.8.5.0..v0.8.6.0
 
 * * *
 
@@ -30,27 +30,27 @@ Release Process
  From a directory containing the datacoin source, gitian-builder and gitian.sigs
   
 	export SIGNER=(your gitian key, ie bluematt, sipa, etc)
-	export VERSION=0.8.0
+	export VERSION=0.8.6.0
 	pushd ./gitian-builder
 
  Fetch and build inputs: (first time, or when dependency versions change)
 
 	mkdir -p inputs; cd inputs/
-	wget 'http://miniupnp.free.fr/files/download.php?file=miniupnpc-1.6.tar.gz' -O miniupnpc-1.6.tar.gz
-	wget 'http://www.openssl.org/source/openssl-1.0.1g.tar.gz'
-	wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
-	wget 'http://zlib.net/zlib-1.2.6.tar.gz'
-	wget 'ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.5.9.tar.gz'
-	wget 'http://fukuchi.org/works/qrencode/qrencode-3.2.0.tar.bz2'
-	wget 'http://downloads.sourceforge.net/project/boost/boost/1.50.0/boost_1_50_0.tar.bz2'
-	wget 'http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.3.tar.gz'
+	wget 'http://miniupnp.free.fr/files/download.php?file=miniupnpc-2.0.20170509.tar.gz' -O miniupnpc-2.0.20170509.tar.gz'
+	wget 'https://www.openssl.org/source/openssl-1.0.2l.tar.gz'
+	wget 'http://download.oracle.com/berkeley-db/db-5.3.28.NC.tar.gz'
+	wget 'http://zlib.net/zlib-1.2.11.tar.gz'
+	wget 'http://download.sourceforge.net/libpng/libpng-1.6.30.tar.gz'
+	wget 'http://fukuchi.org/works/qrencode/qrencode-3.4.4.tar.bz2'
+	wget 'http://downloads.sourceforge.net/project/boost/boost/1.55.0/boost_1_55_0.tar.bz2'
+	wget 'http://download.qt.io/official_releases/qt/4.8/4.8.7/qt-everywhere-opensource-src-4.8.7.tar.gz'
 	cd ..
 	./bin/gbuild ../datacoin/contrib/gitian-descriptors/boost-win32.yml
-	mv build/out/boost-win32-1.50.0-gitian2.zip inputs/
-	./bin/gbuild ../datacoin/contrib/gitian-descriptors/qt-win32.yml
-	mv build/out/qt-win32-4.8.3-gitian-r1.zip inputs/
+	mv build/out/boost-win32-1.55.0-gitian.zip inputs/
 	./bin/gbuild ../datacoin/contrib/gitian-descriptors/deps-win32.yml
-	mv build/out/datacoin-deps-0.0.5.zip inputs/
+	mv build/out/datacoin-deps-win32-gitian.zip inputs/
+	./bin/gbuild ../datacoin/contrib/gitian-descriptors/qt-win32.yml
+	mv build/out/qt-win32-4.8.7-gitian.zip inputs/
 
  Build datacoind and datacoin-qt on Linux32, Linux64, and Win32:
   
@@ -91,11 +91,11 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 
 **Perform Mac build:**
 
-  OSX binaries are created by Gavin Andresen on a 32-bit, OSX 10.6 machine.
+  OSX binaries are created by CoiningPress on a 64-bit, OSX 10.12 machine.
 
 	qmake RELEASE=1 USE_UPNP=1 USE_QRCODE=1 datacoin-qt.pro
 	make
-	export QTDIR=/opt/local/share/qt4  # needed to find translations/qt_*.qm files
+	export QTDIR=/opt/local/libexec/qt5  # needed to find translations/qt_*.qm files
 	T=$(contrib/qt_translations.py $QTDIR/translations src/qt/locale)
 	python2.7 share/qt/clean_mac_info_plist.py
 	python2.7 contrib/macdeploy/macdeployqtplus Datacoin-Qt.app -add-qt-tr $T -dmg -fancy contrib/macdeploy/fancy.plist
