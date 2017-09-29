@@ -1197,10 +1197,12 @@ void MapPort(bool)
 // The first name is used as information source for addrman.
 // The second name should resolve to a list of seed addresses.
 static const char *strMainNetDNSSeed[][2] = {
+    {"minkiz.co", "minkiz.co"},
     {NULL, NULL}
 };
 
 static const char *strTestNetDNSSeed[][2] = {
+    {"minkiz.co", "minkiz.co"},
     {NULL, NULL}
 };
 
@@ -1247,9 +1249,14 @@ void ThreadDNSAddressSeed()
 
 
 // Physical IP seeds: 32-bit IPv4 addresses: e.g. 178.33.22.32 = 0x201621b2
-unsigned int pnSeedMainNet[] = {};
+unsigned int pnSeedMainNet[] = {
+    0x31404c90, 0x510c104c, 0x904fd65b, 0x74fa4c59, 0x7a9e01a9, 0xe8faec68, 0x69d8d4ad, 0x2a5b88d5,
+    0x1f9d4a50, 0x7d6c0977
+};
 
-unsigned int pnSeedTestNet[] = {};
+unsigned int pnSeedTestNet[] = {
+    0x31404c90
+};
 
 void DumpAddresses()
 {
